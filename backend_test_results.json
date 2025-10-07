@@ -1,0 +1,182 @@
+{
+  "total_tests": 29,
+  "passed_tests": 29,
+  "failed_tests": 0,
+  "success_rate": 100.0,
+  "test_results": [
+    {
+      "test_name": "API Health Check",
+      "success": true,
+      "details": "API is accessible",
+      "error": ""
+    },
+    {
+      "test_name": "Initialize Emission Factors",
+      "success": true,
+      "details": "Response: Emission factors already exist (28 factors found)",
+      "error": ""
+    },
+    {
+      "test_name": "Get Emission Factors",
+      "success": true,
+      "details": "Found 28 emission factors",
+      "error": ""
+    },
+    {
+      "test_name": "Create Good",
+      "success": true,
+      "details": "Created good with ID: f580eccb-65e1-4ac7-a2f3-a9c71b4aabfb",
+      "error": ""
+    },
+    {
+      "test_name": "Get Goods",
+      "success": true,
+      "details": "Found 1 goods",
+      "error": ""
+    },
+    {
+      "test_name": "Get Good by ID",
+      "success": true,
+      "details": "Retrieved good: Test Electronics",
+      "error": ""
+    },
+    {
+      "test_name": "Location Search (General)",
+      "success": true,
+      "details": "Found 1 locations",
+      "error": ""
+    },
+    {
+      "test_name": "Airport Search",
+      "success": true,
+      "details": "Found 4 airports",
+      "error": ""
+    },
+    {
+      "test_name": "Vehicle Types (road)",
+      "success": true,
+      "details": "Found 5 vehicle types",
+      "error": ""
+    },
+    {
+      "test_name": "Vehicle Types (rail)",
+      "success": true,
+      "details": "Found 3 vehicle types",
+      "error": ""
+    },
+    {
+      "test_name": "Vehicle Types (air)",
+      "success": true,
+      "details": "Found 3 vehicle types",
+      "error": ""
+    },
+    {
+      "test_name": "Vehicle Types (water)",
+      "success": true,
+      "details": "Found 3 vehicle types",
+      "error": ""
+    },
+    {
+      "test_name": "Distance Calculation (road)",
+      "success": true,
+      "details": "Distance: 4618.82 km",
+      "error": ""
+    },
+    {
+      "test_name": "Distance Calculation (rail)",
+      "success": true,
+      "details": "Distance: 5112.71 km",
+      "error": ""
+    },
+    {
+      "test_name": "Distance Calculation (air)",
+      "success": true,
+      "details": "Distance: 3935.75 km",
+      "error": ""
+    },
+    {
+      "test_name": "Distance Calculation (water)",
+      "success": true,
+      "details": "Distance: 9279.15 km",
+      "error": ""
+    },
+    {
+      "test_name": "Indian Route Distance (Mumbai to Delhi - road)",
+      "success": true,
+      "details": "Distance: 1491.88 km",
+      "error": ""
+    },
+    {
+      "test_name": "Indian Route Distance (Delhi to Bangalore - rail)",
+      "success": true,
+      "details": "Distance: 1778.07 km",
+      "error": ""
+    },
+    {
+      "test_name": "Indian Route Distance (Bangalore to Chennai - air)",
+      "success": true,
+      "details": "Distance: 290.17 km",
+      "error": ""
+    },
+    {
+      "test_name": "Create Single Leg Shipment",
+      "success": true,
+      "details": "Created shipment with ID: ef313588-6501-4cee-8339-8ed987f25986",
+      "error": ""
+    },
+    {
+      "test_name": "Create Multi-Leg Shipment",
+      "success": true,
+      "details": "Created 3-leg shipment: Distance=3560.13km, Cost=\u20b916000.00, Emissions=68.79kg CO\u2082",
+      "error": ""
+    },
+    {
+      "test_name": "2-Leg Shipment",
+      "success": true,
+      "details": "Distance: 997.85km, Cost: \u20b96000.0",
+      "error": ""
+    },
+    {
+      "test_name": "5-Leg Shipment",
+      "success": true,
+      "details": "Distance: 3071.90km, Cost: \u20b912500.0",
+      "error": ""
+    },
+    {
+      "test_name": "Get Shipments",
+      "success": true,
+      "details": "Found 10 shipments",
+      "error": ""
+    },
+    {
+      "test_name": "Dashboard Data Storage",
+      "success": true,
+      "details": "Found 3 properly stored multi-leg shipments",
+      "error": ""
+    },
+    {
+      "test_name": "Analytics with Multi-Leg Data",
+      "success": true,
+      "details": "Shipments: 10, Total Cost: \u20b9104999.0, Total Emissions: 4278.33kg CO\u2082",
+      "error": ""
+    },
+    {
+      "test_name": "Create Emission Factor",
+      "success": true,
+      "details": "Created factor with ID: dca55e71-4b42-42a6-b508-6c02c71e55f5",
+      "error": ""
+    },
+    {
+      "test_name": "Update Emission Factor",
+      "success": true,
+      "details": "Successfully updated emission factor",
+      "error": ""
+    },
+    {
+      "test_name": "Delete Emission Factor",
+      "success": true,
+      "details": "Successfully deleted emission factor",
+      "error": ""
+    }
+  ]
+}
