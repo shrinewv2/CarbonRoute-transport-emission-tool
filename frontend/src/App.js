@@ -998,142 +998,131 @@ const DashboardContent = ({ shipments, onShipmentsChange }) => {
         </Card>
       </div>
 
-      {/* Combined Scatter Plot for All GHG Categories */}
+      {/* Cost vs Emissions Comparison by Category */}
       {scatterData && (scatterData.upstream.length > 0 || scatterData.downstream.length > 0 || scatterData.company_owned.length > 0) && (
-        <div className="space-y-6">
-          <Card className="bg-white/70 border-slate-200 backdrop-blur-sm shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-slate-800 text-xl">Transport Emissions & Cost Analysis</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Category Filter Buttons */}
-              <div className="flex justify-center gap-3 mb-4">
-                <Button
-                  onClick={() => toggleCategoryFilter('upstream')}
-                  className={`btn-enhanced shadow-md ${
-                    categoryFilters.upstream
-                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                      : 'bg-slate-200 hover:bg-slate-300 text-slate-600'
-                  }`}
-                  size="sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${categoryFilters.upstream ? 'bg-white' : 'bg-blue-500'}`}></div>
-                    Upstream
-                  </div>
-                </Button>
-                <Button
-                  onClick={() => toggleCategoryFilter('downstream')}
-                  className={`btn-enhanced shadow-md ${
-                    categoryFilters.downstream
-                      ? 'bg-green-500 hover:bg-green-600 text-white'
-                      : 'bg-slate-200 hover:bg-slate-300 text-slate-600'
-                  }`}
-                  size="sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${categoryFilters.downstream ? 'bg-white' : 'bg-green-500'}`}></div>
-                    Downstream
-                  </div>
-                </Button>
-                <Button
-                  onClick={() => toggleCategoryFilter('company_owned')}
-                  className={`btn-enhanced shadow-md ${
-                    categoryFilters.company_owned
-                      ? 'bg-purple-500 hover:bg-purple-600 text-white'
-                      : 'bg-slate-200 hover:bg-slate-300 text-slate-600'
-                  }`}
-                  size="sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${categoryFilters.company_owned ? 'bg-white' : 'bg-purple-500'}`}></div>
-                    Company Owned
-                  </div>
-                </Button>
-              </div>
-              <ResponsiveContainer width="100%" height={400}>
-                <ScatterChart>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#cbd5e1" />
-                  <XAxis 
-                    type="number" 
-                    dataKey="x" 
-                    name="Emissions" 
-                    unit="kg CO₂" 
-                    stroke="#475569" 
-                    fontSize={12}
-                    label={{ value: 'Emissions (kg CO₂)', position: 'insideBottom', offset: -5 }}
-                  />
-                  <YAxis 
-                    type="number" 
-                    dataKey="y" 
-                    name="Cost" 
-                    unit="₹" 
-                    stroke="#475569" 
-                    fontSize={12}
-                    label={{ value: 'Cost (₹)', angle: -90, position: 'insideLeft' }}
-                  />
-                  <Tooltip
-                    cursor={{ strokeDasharray: '3 3' }}
-                    content={({ active, payload, label }) => {
-                      if (active && payload && payload.length > 0) {
-                        const data = payload[0].payload;
-                        // Format category name properly
-                        const categoryNames = {
-                          'upstream': 'Upstream',
-                          'downstream': 'Downstream',
-                          'company_owned': 'Company Owned'
-                        };
-                        const categoryName = categoryNames[data.category] || data.category;
-
-                        return (
-                          <div className="bg-white p-3 border border-slate-200 rounded-lg shadow-lg">
-                            <p className="font-semibold text-slate-800">{data.name}</p>
-                            <p className="text-sm text-slate-600">Emissions: {data.x} kg CO₂</p>
-                            <p className="text-sm text-slate-600">Cost: ₹{data.y}</p>
-                            <p className="text-sm text-slate-600">Quantity: {data.z} kg</p>
-                            <p className="text-xs text-slate-500">{categoryName} Transportation</p>
+        <Card className="bg-white/70 border-slate-200 backdrop-blur-sm shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-slate-800 text-xl flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-blue-600" />
+              Cost vs Carbon Emissions by Category
+            </CardTitle>
+            <CardDescription className="text-slate-600">
+              Compare the financial cost and environmental impact across different transportation categories
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart
+                data={[
+                  {
+                    category: 'Upstream',
+                    cost: scatterData.upstream.reduce((sum, item) => sum + item.cost, 0),
+                    emissions: scatterData.upstream.reduce((sum, item) => sum + item.emissions, 0),
+                    count: scatterData.upstream.length
+                  },
+                  {
+                    category: 'Downstream',
+                    cost: scatterData.downstream.reduce((sum, item) => sum + item.cost, 0),
+                    emissions: scatterData.downstream.reduce((sum, item) => sum + item.emissions, 0),
+                    count: scatterData.downstream.length
+                  },
+                  {
+                    category: 'Company Owned',
+                    cost: scatterData.company_owned.reduce((sum, item) => sum + item.cost, 0),
+                    emissions: scatterData.company_owned.reduce((sum, item) => sum + item.emissions, 0),
+                    count: scatterData.company_owned.length
+                  }
+                ]}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis
+                  dataKey="category"
+                  stroke="#475569"
+                  fontSize={12}
+                  fontWeight={600}
+                />
+                <YAxis
+                  yAxisId="left"
+                  stroke="#10b981"
+                  fontSize={12}
+                  label={{ value: 'Cost (₹)', angle: -90, position: 'insideLeft', style: { fill: '#10b981' } }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="#f59e0b"
+                  fontSize={12}
+                  label={{ value: 'Emissions (kg CO₂)', angle: 90, position: 'insideRight', style: { fill: '#f59e0b' } }}
+                />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length > 0) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white p-4 border border-slate-200 rounded-lg shadow-lg">
+                          <p className="font-bold text-slate-800 mb-2">{data.category}</p>
+                          <p className="text-sm text-emerald-600 font-semibold">Cost: ₹{data.cost.toFixed(2)}</p>
+                          <p className="text-sm text-orange-600 font-semibold">Emissions: {data.emissions.toFixed(2)} kg CO₂</p>
+                          <p className="text-xs text-slate-500 mt-1">{data.count} shipment(s)</p>
+                          <div className="mt-2 pt-2 border-t border-slate-200">
+                            <p className="text-xs text-slate-600">
+                              Cost per kg CO₂: ₹{(data.cost / data.emissions).toFixed(2)}
+                            </p>
                           </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Legend />
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Legend
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  iconType="rect"
+                />
+                <Bar
+                  yAxisId="left"
+                  dataKey="cost"
+                  fill="#10b981"
+                  name="Total Cost (₹)"
+                  radius={[8, 8, 0, 0]}
+                />
+                <Bar
+                  yAxisId="right"
+                  dataKey="emissions"
+                  fill="#f59e0b"
+                  name="Total Emissions (kg CO₂)"
+                  radius={[8, 8, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
 
-                  {/* Upstream Data - Blue - Only show if filter is enabled */}
-                  {categoryFilters.upstream && scatterPlotData.upstream.length > 0 && (
-                    <Scatter
-                      name="Upstream"
-                      data={scatterPlotData.upstream.map(item => ({ ...item, category: 'upstream' }))}
-                      fill="#3b82f6"
-                      shape={<CustomScatterShape />}
-                    />
-                  )}
+            {/* Summary Cards */}
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              {[
+                { name: 'Upstream', color: 'blue', data: scatterData.upstream },
+                { name: 'Downstream', color: 'green', data: scatterData.downstream },
+                { name: 'Company Owned', color: 'purple', data: scatterData.company_owned }
+              ].map((cat) => {
+                const totalCost = cat.data.reduce((sum, item) => sum + item.cost, 0);
+                const totalEmissions = cat.data.reduce((sum, item) => sum + item.emissions, 0);
+                const avgCostPerKg = totalEmissions > 0 ? totalCost / totalEmissions : 0;
 
-                  {/* Downstream Data - Green - Only show if filter is enabled */}
-                  {categoryFilters.downstream && scatterPlotData.downstream.length > 0 && (
-                    <Scatter
-                      name="Downstream"
-                      data={scatterPlotData.downstream.map(item => ({ ...item, category: 'downstream' }))}
-                      fill="#10b981"
-                      shape={<CustomScatterShape />}
-                    />
-                  )}
-
-                  {/* Company Owned Data - Purple - Only show if filter is enabled */}
-                  {categoryFilters.company_owned && scatterPlotData.company_owned.length > 0 && (
-                    <Scatter
-                      name="Company Owned"
-                      data={scatterPlotData.company_owned.map(item => ({ ...item, category: 'company_owned' }))}
-                      fill="#8b5cf6"
-                      shape={<CustomScatterShape />}
-                    />
-                  )}
-                </ScatterChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
+                return (
+                  <div key={cat.name} className={`p-4 rounded-lg border-2 border-${cat.color}-200 bg-${cat.color}-50`}>
+                    <h4 className={`font-semibold text-${cat.color}-800 mb-2`}>{cat.name}</h4>
+                    <div className="space-y-1">
+                      <p className="text-xs text-slate-600">Total Cost: <span className="font-bold">₹{totalCost.toFixed(2)}</span></p>
+                      <p className="text-xs text-slate-600">Total Emissions: <span className="font-bold">{totalEmissions.toFixed(2)} kg</span></p>
+                      <p className="text-xs text-slate-600">Cost/Emission: <span className="font-bold">₹{avgCostPerKg.toFixed(2)}/kg</span></p>
+                      <p className="text-xs text-slate-500">{cat.data.length} shipment(s)</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Charts */}
